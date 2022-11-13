@@ -20,9 +20,7 @@ class ResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
-        
-        print(answersChosen)
-                
+                        
         let answers = answersChosen
             .map{"\($0.animal)"}
             .reduce(into: [:]) { counts, letter in
