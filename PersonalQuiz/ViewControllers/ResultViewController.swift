@@ -15,26 +15,39 @@ class ResultViewController: UIViewController {
     
     @IBOutlet weak var descriptionLable: UILabel!
 
-    var answersChosen: [Answer] = []
+    var answersChosen: [Answer]!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
-                        
+        searchResult()
+    }
+    
+    private func searchResult() {
+        var result: [Animal: Int] = [:]
         let answers = answersChosen
-            .map{"\($0.animal)"}
-            .reduce(into: [:]) { counts, letter in
-                counts[letter, default: 0] += 1}
-            .sorted { $0.1 > $1.1 }
-                
-        let resul = answers.first?.key ?? "wqeq"
-                
-        switch resul {
-        case String(Animal.cat.rawValue):
-            animalLable.text = resul
+            .map{ $0.animal }
+        
+        answers.forEach {
+            result[$0, default: 0] += 1
+        }
+        
+        let res = result.sorted(by: { $0.value > $1.value } )
+        
+        guard let animal = res.first?.key else { return }
+        switch animal {
+        case .cat:
+            animalLable.text = String(animal.rawValue)
+            descriptionLable.text = animal.definition
+        case .dog:
+            animalLable.text = String(animal.rawValue)
+            descriptionLable.text = animal.definition
+        case .rabbit:
+            animalLable.text = String(animal.rawValue)
+            descriptionLable.text = animal.definition
         default:
-            animalLable.text = "🐶"
-
+            animalLable.text = String(animal.rawValue)
+            descriptionLable.text = animal.definition
         }
     }
     
@@ -43,9 +56,4 @@ class ResultViewController: UIViewController {
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true)
     }
-    
-    deinit{
-        print("ResultVC has been delocated")
-    }
-    
 }
