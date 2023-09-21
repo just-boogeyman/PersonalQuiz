@@ -28,7 +28,6 @@ class ResultViewController: UIViewController {
         let result = anser
             .sorted { $0.animal.rawValue > $1.animal.rawValue }
             .map {$0.animal}
-        print(result)
         youAnimalLable.text = "Вы - \(result[0].rawValue)"
         youNameLable.text = "Вы - \(result[0])"
     }
